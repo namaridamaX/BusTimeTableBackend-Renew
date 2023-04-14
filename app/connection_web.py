@@ -5,7 +5,6 @@ from urllib.parse import urljoin
 
 def get_pdf():
     url = "https://www.chitose.ac.jp/info/access"
-    path = "//*[@id='paragraph_107_1615971519']/div/div/div[2]/a"
     savefile = "pdf/Bus.pdf"
 
     #サイトと接続
@@ -32,3 +31,4 @@ def get_pdf():
 
     #pdfフォルダにBus.pdfとして保存
     urllib.request.urlretrieve(abs_pdf_list[0],savefile)
+    print("saved!!")
