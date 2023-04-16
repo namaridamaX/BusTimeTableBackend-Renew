@@ -1,12 +1,12 @@
 from flask import Flask
-# from flask_cors import CORS
+from flask_cors import CORS
 import connection_web
 import pdf_tolist
 import pandas as pd
 
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
 @app.route('/',methods=["GET"])
