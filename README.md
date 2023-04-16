@@ -5,6 +5,10 @@ tabula
 ```title:bash
 $ pip install tabula-py
 ```
+CORS
+```title:bash
+$ pip install -U flask-cors
+```
 
 ## APIで返ってくるJsonデータ
 ```
