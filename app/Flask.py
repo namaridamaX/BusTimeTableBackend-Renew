@@ -1,8 +1,9 @@
 from flask import Flask
 import connection_web
+from flask_cors import CORS
 import pdf_tolist
 import pandas as pd
-from flask_cors import CORS
+
 
 
 app = Flask(__name__)
