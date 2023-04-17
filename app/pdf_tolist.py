@@ -46,3 +46,29 @@ def SerchPdf():
         if bus_pdf_date < dt_now : return True
 
         return False
+
+def get_time(start, goal, time, bus_list):
+    # time = "12:00"
+    # bus_list[start] = "13:00"
+    index_arry = []
+
+    want_date_time = datetime.strptime(time, "%H:%M") # 文字列型をdate型に変換
+
+    # bus_listから時刻を抜き出し、比較してindex_arrayに行番号を入れていく
+    for i, x in enumerate(bus_list[start]) :
+
+        if(x != '-' and x != '') :
+
+            bus_list_date_time = datetime.strptime(x, "%H:%M")
+
+            if(want_date_time < bus_list_date_time) :
+                index_arry.append(i)
+
+                if(len(index_arry) == 3) : # 3つ揃ったらreturn
+                    return index_arry
+
+    # 3つ揃わなかった場合、残っているところに100を入れる
+    for i in range(0, 3-len(index_arry) ) :
+        index_arry.append(100)
+
+    return index_arry
