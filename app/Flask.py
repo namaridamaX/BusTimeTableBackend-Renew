@@ -10,27 +10,32 @@ app = Flask(__name__)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
-@app.route('/',methods=["GET", "POST"])
+@app.route('/')
 def send_table():
-    if request.methods == "GET":
 
-        if (pdf_tolist.SerchPdf()):
-            connection_web.get_pdf()  # バスの時刻表を取得
-            print("true")
+        # jsonデータの取得と文字列型に変換して変数に格納
+        # start_json_data = request.json['start']
+        start_data = '本部棟発\rMAIN CAMPUS' # 出発駅の情報 start_data = '千歳駅発\rChitose Sta.'
+        # goal_json_data = request.json['goal']
+        goal_data = '南千歳駅着\rMinami-Chitose Sta.'  # 到着駅の情報 goal_data = '本部棟着\rMAIN CAMPUS'
+        # time_json_data = request.json['time']
+        time_data = '12:00'  # 出発時間の情報 time_data = '12:00'
 
         dfs = pdf_tolist.ReadPdf()
         df_list = pdf_tolist.ListDfs(dfs)
         pdf_tolist.SerchPdf()
         bus_list = pd.concat([df_list[0], df_list[1]], axis=1)
+        index_array = pdf_tolist.get_time(start_data, goal_data, time_data, bus_list)
         print(bus_list)
-        pdf_tolist.SerchPdf()
-        json_data = bus_list.to_json()
+        # json_data = bus_list.to_json()
 
-        print("GETが実行されました")
+        print("POSTが実行されました")
 
-        return json_data
+        return index_array
 
-    else:
+
+@app.route('/', methods=["GET"])
+def send_tabel():
 
         if( pdf_tolist.SerchPdf() ):
 
