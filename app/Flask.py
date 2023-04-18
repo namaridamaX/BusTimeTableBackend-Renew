@@ -1,7 +1,7 @@
 from flask import *
 import connection_web
 from flask_cors import CORS
-import pdf_tolist
+import listutil
 import pandas as pd
 
 
@@ -21,12 +21,10 @@ def send_table():
         # time_json_data = request.json['time']
         time_data = '12:00'  # 出発時間の情報 time_data = '12:00'
 
-        dfs = pdf_tolist.ReadPdf()
-        df_list = pdf_tolist.ListDfs(dfs)
-        pdf_tolist.SerchPdf()
-        bus_list = pd.concat([df_list[0], df_list[1]], axis=1)
-        index_array = pdf_tolist.get_time(start_data, goal_data, time_data, bus_list)
-        json_time_data = pdf_tolist.translate_json(start_data, goal_data, index_array, bus_list)
+        bus_list = listutil.PdfToList()
+        bus_list = pd.concat([bus_list[0], bus_list[1]], axis=1)
+        index_array = listutil.get_time(start_data, goal_data, time_data, bus_list)
+        json_time_data = listutil.translate_json(start_data, goal_data, index_array, bus_list)
 
         print("POSTが実行されました")
         print(type(json_time_data))
@@ -37,7 +35,7 @@ def send_table():
 @app.route('/', methods=["GET"])
 def send_tabel():
 
-        if( pdf_tolist.SerchPdf() ):
+        if( listutil.SerchPdf() ):
 
             connection_web.get_pdf()  #バスの時刻表を取得
             print("true")
@@ -50,10 +48,9 @@ def send_tabel():
         time_json_data = request.json['time']
         time_data = str(time_json_data) # 出発時間の情報 time_data = '12:00'
 
-        dfs = pdf_tolist.ReadPdf()
-        df_list = pdf_tolist.ListDfs(dfs)
-        pdf_tolist.SerchPdf()
-        bus_list = pd.concat([df_list[0], df_list[1]], axis=1)
+        bus_list = listutil.PdfToList()
+        listutil.SerchPdf()
+        bus_list = pd.concat([bus_list[0], bus_list[1]], axis=1)
         print(bus_list)
         json_data = bus_list.to_json()
 

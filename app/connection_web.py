@@ -4,11 +4,11 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 def get_pdf():
-    url = "https://www.chitose.ac.jp/info/access"
-    savefile = "pdf/Bus.pdf"
+    WEB_URL = "https://www.chitose.ac.jp/info/access"
+    SAVE_URL = "pdf/Bus.pdf"
 
     #サイトと接続
-    res = req.urlopen(url)
+    res = req.urlopen(WEB_URL)
     soup = BeautifulSoup(res,"html.parser")
     result = soup.select("a[href]")
 
@@ -25,10 +25,10 @@ def get_pdf():
     #相対パスから絶対パスに変換
     abs_pdf_list = []
     for relative in pdf_list:
-        temp_url = urljoin(url, relative)
+        temp_url = urljoin(WEB_URL, relative)
         abs_pdf_list.append(temp_url)
     print(abs_pdf_list)
 
     #pdfフォルダにBus.pdfとして保存
-    urllib.request.urlretrieve(abs_pdf_list[0],savefile)
+    urllib.request.urlretrieve(abs_pdf_list[0],SAVE_URL)
     print("saved!!")

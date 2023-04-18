@@ -7,20 +7,15 @@ import tabula
 import pandas as pd
 import PyPDF2
 from datetime import datetime, timedelta, timezone
-PDF_Path = "pdf/Bus.pdf"
+PDF_PATH = "pdf/Bus.pdf"
 
 
 # PDFファイルを読み取りList型にする
-def ReadPdf():
-    dfs = tabula.read_pdf(PDF_Path, lattice=True, pages=1)
-    return dfs
-
-
-# Listからnullを削除する
-def ListDfs(dfs):
-    df_list = [df.dropna(axis=1) for df in dfs]
-    df_list = [df_list.pop(0), df_list.pop(0)]
-    return df_list
+def PdfToList():
+    dfs = tabula.read_pdf(PDF_PATH, lattice=True, pages=1)
+    none_null_df_list = [df.dropna(axis=1) for df in dfs]
+    bus_list = [none_null_df_list.pop(0), none_null_df_list.pop(0)]
+    return bus_list
 
 
 # 期限の日にちを取得して,その日と比較する
@@ -29,8 +24,8 @@ def SerchPdf():
     HalfWidthDigits = "0123456789"
     conv_map = str.maketrans(FullWidthDigits,HalfWidthDigits)
     dt_now = datetime.now(pytz.timezone('Asia/Tokyo')) # 現在の時間
-    if (os.path.getsize(PDF_Path) == 0): return True
-    with open(PDF_Path,"rb") as f:
+    if (os.path.getsize(PDF_PATH) == 0): return True
+    with open(PDF_PATH,"rb") as f:
         reader = PyPDF2.PdfReader(f)
         page = reader.pages[0] # PyPDF2がversion3.0に変更によりこっちを使うようになりました
         pdf_text = page.extract_text() # PyPDF2がversion3.0に変更によりこっちを使うようになりました]
