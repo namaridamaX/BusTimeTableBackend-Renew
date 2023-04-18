@@ -26,12 +26,12 @@ def send_table():
         pdf_tolist.SerchPdf()
         bus_list = pd.concat([df_list[0], df_list[1]], axis=1)
         index_array = pdf_tolist.get_time(start_data, goal_data, time_data, bus_list)
-        print(bus_list)
-        # json_data = bus_list.to_json()
+        json_time_data = pdf_tolist.translate_json(start_data, goal_data, index_array, bus_list)
 
         print("POSTが実行されました")
+        print(type(json_time_data))
 
-        return index_array
+        return json_time_data
 
 
 @app.route('/', methods=["GET"])

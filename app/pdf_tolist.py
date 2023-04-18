@@ -1,4 +1,5 @@
 import datetime
+import json
 import os.path
 import re
 import pytz
@@ -75,3 +76,21 @@ def get_time(start, goal, time, bus_list):
         index_array.append(100)
 
     return index_array
+
+def translate_json(start, goal, index_array, bus_list) :
+
+    dict_bus_time = {
+        "start_time": {
+            "1": bus_list[start][index_array[0]],
+            "2": bus_list[start][index_array[1]],
+            "3": bus_list[start][index_array[2]]
+        },
+        "goal_time": {
+            "1": bus_list[goal][index_array[0]],
+            "2": bus_list[goal][index_array[1]],
+            "3": bus_list[goal][index_array[2]]
+        }
+    }
+    json_time_data = json.dumps(dict_bus_time, ensure_ascii=False)
+
+    return json_time_data
